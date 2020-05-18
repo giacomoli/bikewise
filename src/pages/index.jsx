@@ -3,6 +3,7 @@ import { Container, AppBar, Toolbar, Typography } from '@material-ui/core';
 
 import SearchComponent from '../components/search';
 import ListComponent from '../components/list';
+import Pagination from '../components/pagination';
 import { base_url } from '../config.js';
 
 const formatDate = strDate => {
@@ -15,15 +16,11 @@ export default class MainPage extends Component {
     this.state = {
       current: {
         page: 1,
-        loading: false,
-        error: false,
         records: []
       },
-      all: {
-        loading: false,
-        error: false,
-        recordAmounts: []
-      },
+      loading: false,
+      error: false,
+      totalRecordCount: '',
       filter: {
         query: '',
         startDate: '',
@@ -33,43 +30,26 @@ export default class MainPage extends Component {
   }
 
   loadTotalRecords = () => {
-    this.setState({
-      all: {
-        ...this.state.all,
-        loading: true
-      }
-    });
     const url = `${base_url}?incident_type=theft&proximity=Berlin`;
     fetch(url)
       .then(data => data.json())
       .then(response => {
         this.setState({
-          all: {
-            ...this.state.all,
-            recordAmounts: response.incidents.length,
-            loading: false,
-            error: false
-          }
+          totalRecordCount: response.incidents.length
         });
       })
       .catch(error => {
         this.setState({
-          ...this.state.all,
-          recordAmounts: 0,
-          loading: false,
-          error: true
+          totalRecordCount: -1
         });
       });
   };
 
   loadCurrentPageRecords = () => {
     const { filter, current } = this.state;
-    console.log("filter", filter);
+    console.log('filter', filter);
     this.setState({
-      current: {
-        ...current,
-        loading: true
-      }
+      loading: true
     });
 
     let url = `${base_url}?page=${current.page}&per_page=10&incident_type=theft&proximity=Berlin`;
@@ -84,17 +64,19 @@ export default class MainPage extends Component {
         this.setState({
           current: {
             ...current,
-            records: response.incidents,
-            loading: false,
-            error: false
-          }
+            records: response.incidents
+          },
+          loading: false,
+          error: false
         });
       })
       .catch(err => {
         console.log(err);
         this.setState({
-          ...current,
-          records: [],
+          current: {
+            ...current,
+            records: []
+          },
           loading: false,
           error: true
         });
@@ -120,7 +102,6 @@ export default class MainPage extends Component {
 
   setFilter = (query, startDate, endDate) => {
     // Set Search Filter from Child Component
-    console.log("qq", query,)
     this.setState({
       filter: {
         query: query ? query : '',
@@ -130,7 +111,21 @@ export default class MainPage extends Component {
     });
   };
 
+  setCurrentPage = page => {
+    console.log(page);
+
+    this.setState({
+      current: {
+        ...this.state.current,
+        page
+      }
+    });
+  };
+
   render() {
+    const { current, loading, error, totalRecordCount } = this.state;
+    console.log('totalRecordCount', totalRecordCount);
+
     return (
       <Container>
         <AppBar position="static" style={{ marginBottom: 8 }}>
@@ -141,7 +136,12 @@ export default class MainPage extends Component {
           </Toolbar>
         </AppBar>
         <SearchComponent setFilter={this.setFilter} />
-        <ListComponent {...this.state.current} />
+        <ListComponent records={current.records} loading={loading} error={error} />
+        <Pagination
+          currentPage={current.page}
+          totalRecordCount={totalRecordCount}
+          setCurrentPage={this.setCurrentPage}
+        />
       </Container>
     );
   }

@@ -39,7 +39,7 @@ export default class MainPage extends Component {
         loading: true
       }
     });
-    const url = `${base_url}?incident_type=theft`;
+    const url = `${base_url}?incident_type=theft&proximity=Berlin`;
     fetch(url)
       .then(data => data.json())
       .then(response => {
@@ -64,6 +64,7 @@ export default class MainPage extends Component {
 
   loadCurrentPageRecords = () => {
     const { filter, current } = this.state;
+    console.log("filter", filter);
     this.setState({
       current: {
         ...current,
@@ -71,7 +72,7 @@ export default class MainPage extends Component {
       }
     });
 
-    let url = `${base_url}?page=${current.page}&per_page=10&incident_type=theft`;
+    let url = `${base_url}?page=${current.page}&per_page=10&incident_type=theft&proximity=Berlin`;
 
     if (filter.query) url += `&query=${filter.query}`;
     if (filter.startDate) url += `&occurred_after=${filter.startDate}`;
@@ -106,8 +107,20 @@ export default class MainPage extends Component {
     this.loadCurrentPageRecords();
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.current.page !== this.state.current.page ||
+      prevState.filter.query !== this.state.filter.query ||
+      prevState.filter.startDate !== this.state.filter.startDate ||
+      prevState.filter.endDate !== this.state.filter.endDate
+    ) {
+      this.loadCurrentPageRecords();
+    }
+  }
+
   setFilter = (query, startDate, endDate) => {
     // Set Search Filter from Child Component
+    console.log("qq", query,)
     this.setState({
       filter: {
         query: query ? query : '',
@@ -115,7 +128,6 @@ export default class MainPage extends Component {
         endDate: endDate ? formatDate(endDate) : ''
       }
     });
-    this.loadCurrentPageRecords();
   };
 
   render() {

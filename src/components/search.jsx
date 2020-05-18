@@ -11,7 +11,7 @@ const Search = ({ setFilter }) => {
       <Grid item xs={12} sm={3}>
         <TextField
           name="query"
-          label="Search query"
+          label="Title"
           value={query}
           onChange={evt => setQuery(evt.target.value)}
           fullWidth
@@ -20,7 +20,7 @@ const Search = ({ setFilter }) => {
       <Grid item xs={6} sm={4}>
         <TextField
           name="startDate"
-          label="Start Date"
+          label="Range Start Date"
           type="date"
           value={startDate}
           onChange={evt => setStartDate(evt.target.value)}
@@ -30,7 +30,7 @@ const Search = ({ setFilter }) => {
       <Grid item xs={6} sm={4}>
         <TextField
           name="endDate"
-          label="End Date"
+          label="Range End Date"
           type="date"
           value={endDate}
           onChange={evt => setEndDate(evt.target.value)}

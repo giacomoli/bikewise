@@ -43,6 +43,7 @@ const Search = ({ setFilter }) => {
           color="primary"
           style={{ height: '100%' }}
           onClick={() => setFilter(query, startDate, endDate)}
+          fullWidth
         >
           Search
         </Button>

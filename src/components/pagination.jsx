@@ -29,7 +29,7 @@ export default function RecordPagination({
         showFirstButton
         showLastButton
         page={currentPage}
-        variant="contained"
+        variant="text"
         color="primary"
         onChange={onPageChange}
       />

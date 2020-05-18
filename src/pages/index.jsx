@@ -127,7 +127,7 @@ export default class MainPage extends Component {
     console.log('totalRecordCount', totalRecordCount);
 
     return (
-      <Container>
+      <>
         <AppBar position="static" style={{ marginBottom: 8 }}>
           <Toolbar variant="dense">
             <Typography variant="h6" color="inherit">
@@ -135,14 +135,16 @@ export default class MainPage extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <SearchComponent setFilter={this.setFilter} />
-        <ListComponent records={current.records} loading={loading} error={error} />
-        <Pagination
-          currentPage={current.page}
-          totalRecordCount={totalRecordCount}
-          setCurrentPage={this.setCurrentPage}
-        />
-      </Container>
+        <Container>
+          <SearchComponent setFilter={this.setFilter} />
+          <ListComponent records={current.records} loading={loading} error={error} />
+          <Pagination
+            currentPage={current.page}
+            totalRecordCount={totalRecordCount}
+            setCurrentPage={this.setCurrentPage}
+          />
+        </Container>
+      </>
     );
   }
 }

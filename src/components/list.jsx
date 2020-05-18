@@ -1,12 +1,21 @@
 import React from 'react';
-import { List } from '@material-ui/core';
+import { List, makeStyles } from '@material-ui/core';
 
 import RecordItem from './recordItem';
 
+const useStyles = makeStyles(theme => ({
+  error: {
+    textAlign: 'center',
+    marginTop: theme.spacing(2)
+  }
+}));
+
 export default function ({ records = [], loading = false, error = false }) {
-  if (error) return <div>Can't load data, please try again.</div>;
-  if (loading) return <div>Loading...</div>;
-  if (records.length === 0) return <div>No results</div>;
+  const classes = useStyles();
+
+  if (error) return <div className={classes.error}>Can't load data, please try again.</div>;
+  if (loading) return <div className={classes.error}>Loading...</div>;
+  if (records.length === 0) return <div className={classes.error}>No results</div>;
 
   return (
     <List>

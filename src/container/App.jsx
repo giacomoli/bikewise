@@ -30,17 +30,29 @@ export default class App extends Component {
   }
 
   loadTotalRecords = () => {
+    this.setState({
+      loading: true
+    });
+
     const url = `${base_url}?incident_type=theft&proximity=Berlin`;
     fetch(url)
       .then(data => data.json())
       .then(response => {
         this.setState({
-          totalRecordCount: response.incidents.length
+          totalRecordCount: response.incidents.length,
+          current: {
+            page: 1,
+            records: response.incidents
+          },
+          loading: false,
+          error: false
         });
       })
       .catch(error => {
         this.setState({
-          totalRecordCount: -1
+          totalRecordCount: 0,
+          loading: false,
+          error: true
         });
       });
   };
@@ -85,8 +97,6 @@ export default class App extends Component {
   componentDidMount() {
     //Get all stolen bikes
     this.loadTotalRecords();
-
-    this.loadCurrentPageRecords();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -138,7 +148,7 @@ export default class App extends Component {
           <ListComponent records={current.records} loading={loading} error={error} />
           <Pagination
             currentPage={current.page}
-            totalRecordCount={totalRecordCount}
+            totalRecordCount={current.records.length}
             setCurrentPage={this.setCurrentPage}
           />
         </Container>

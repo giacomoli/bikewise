@@ -25,6 +25,9 @@ const Search = ({ setFilter }) => {
           value={startDate}
           onChange={evt => setStartDate(evt.target.value)}
           fullWidth
+          InputLabelProps={{
+            shrink: true
+          }}
         />
       </Grid>
       <Grid item xs={6} sm={4}>
@@ -35,6 +38,9 @@ const Search = ({ setFilter }) => {
           value={endDate}
           onChange={evt => setEndDate(evt.target.value)}
           fullWidth
+          InputLabelProps={{
+            shrink: true
+          }}
         />
       </Grid>
       <Grid item xs={1} sm={1}>

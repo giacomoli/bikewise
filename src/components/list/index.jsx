@@ -1,7 +1,7 @@
 import React from 'react';
 import { List, makeStyles } from '@material-ui/core';
 
-import RecordItem from './recordItem';
+import RecordItem from '../listItem';
 
 const useStyles = makeStyles(theme => ({
   error: {
@@ -10,10 +10,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ({ records = [], loading = false, error = false }) {
+export default function RecordList({
+  records = [],
+  loading = false,
+  error = false
+}) {
   const classes = useStyles();
 
-  if (error) return <div className={classes.error}>Can't load data, please try again.</div>;
+  if (error)
+    return <div className={classes.error}>Can not load data, please try again</div>;
   if (loading) return <div className={classes.error}>Loading...</div>;
   if (records.length === 0) return <div className={classes.error}>No results</div>;
 

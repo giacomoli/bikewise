@@ -8,7 +8,7 @@ import {
   Grid
 } from '@material-ui/core';
 
-import { bike_blank_url } from '../config';
+import { bike_blank_url } from '../../config';
 
 const getDateString = integerDate => {
   const date = new Date(parseInt(integerDate + '000'));
@@ -18,7 +18,6 @@ const getDateString = integerDate => {
 export default function RecordItem({ record }) {
   const { title, description, occurred_at, updated_at, address, media } = record;
 
-  console.log('record', record);
   return (
     <ListItem>
       <Grid container spacing={2}>

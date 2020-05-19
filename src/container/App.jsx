@@ -10,7 +10,7 @@ const formatDate = strDate => {
   return new Date(strDate).getTime().toString().slice(0, -3);
 };
 
-export default class MainPage extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,7 +47,7 @@ export default class MainPage extends Component {
 
   loadCurrentPageRecords = () => {
     const { filter, current } = this.state;
-    console.log('filter', filter);
+
     this.setState({
       loading: true
     });
@@ -71,7 +71,6 @@ export default class MainPage extends Component {
         });
       })
       .catch(err => {
-        console.log(err);
         this.setState({
           current: {
             ...current,
@@ -84,8 +83,9 @@ export default class MainPage extends Component {
   };
 
   componentDidMount() {
-    //Get all bikes for pagination
+    //Get all stolen bikes
     this.loadTotalRecords();
+
     this.loadCurrentPageRecords();
   }
 
@@ -112,8 +112,6 @@ export default class MainPage extends Component {
   };
 
   setCurrentPage = page => {
-    console.log(page);
-
     this.setState({
       current: {
         ...this.state.current,
@@ -124,15 +122,15 @@ export default class MainPage extends Component {
 
   render() {
     const { current, loading, error, totalRecordCount } = this.state;
-    console.log('totalRecordCount', totalRecordCount);
 
     return (
       <>
         <AppBar position="static" style={{ marginBottom: 8 }}>
           <Toolbar variant="dense">
-            <Typography variant="h6" color="inherit">
+            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
               BikeWise Example
             </Typography>
+            <Typography>{`Total Bike Count: ${totalRecordCount}`}</Typography>
           </Toolbar>
         </AppBar>
         <Container>

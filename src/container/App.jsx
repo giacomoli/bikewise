@@ -148,7 +148,7 @@ export default class App extends Component {
           <ListComponent records={current.records} loading={loading} error={error} />
           <Pagination
             currentPage={current.page}
-            totalRecordCount={current.records.length}
+            totalRecordCount={totalRecordCount}
             setCurrentPage={this.setCurrentPage}
           />
         </Container>
